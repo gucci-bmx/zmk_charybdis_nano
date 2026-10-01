@@ -8,7 +8,7 @@
 #include <dt-bindings/zmk/input_transform.h>
 
 #define Base 0
-#define Media 1
+#define Layer1 1
 #define Nav 2
 #define Mouse 3
 #define Sym 4
@@ -16,11 +16,7 @@
 #define Fun 6
 #define Button 7
 
-/ {
-    trackball_listener {
-        compatible = "zmk,input-listener";
-        device = <&trackball_split>;
-
+&trackball_listener {
         snipe {
             layers = <Mouse>;
             input-processors = <&zip_xy_scaler 1 3>;
@@ -28,10 +24,11 @@
 
         scroll {
             layers = <Nav>;
-            input-processors = <&zip_xy_scaler 1 3>, <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform (INPUT_TRANSFORM_Y_INVERT)>;
+            input-processors = <&zip_xy_scaler 1 150>, <&zip_xy_to_scroll_mapper>, <&zip_scroll_transform (INPUT_TRANSFORM_Y_INVERT)>;
         };
-    };
+};
 
+/ {
     behaviors {
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
@@ -50,88 +47,142 @@
             flavor = "balanced";
             tapping-term-ms = <240>;
             quick-tap-ms = <150>;
-            bindings = 
+            bindings =
                 <&mo>,
                 <&kp>;
         };
     };
 
-    chosen {
-        zmk,matrix_transform = &five_column_transform;
-    };
+chosen {
+    zmk,physical-layout = &charybdis_5col_layout;
+};
 
+combos {
+        compatible = "zmk,combos";
+        timeout-ms = <50>;
+
+        combo_left_click {
+            key-positions = <16 17>;
+            bindings = <&mkp LCLK>;
+        };
+
+        combo_right_click {
+            key-positions = <17 18>;
+            bindings = <&mkp RCLK>;
+        };
+
+        combo_middle_click {
+            key-positions = <16 18>;
+            bindings = <&mkp MCLK>;
+        };
+
+        combo_scroll {
+            key-positions = <16 17 18>;
+            bindings = <&mo Nav>;
+        };
+
+        combo_cut {
+            key-positions = <26 27>;
+            bindings = <&kp LC(X)>;
+        };
+
+        combo_paste {
+            key-positions = <27 28>;
+            bindings = <&kp LC(V)>;
+        };
+
+        combo_copy {
+            key-positions = <6 7>;
+            bindings = <&kp LC(C)>;
+        };
+
+        combo_plus {
+            key-positions = <12 13>;
+            bindings = <&kp KP_PLUS>;
+        };
+
+        combo_minus {
+            key-positions = <22 23>;
+            bindings = <&kp KP_MINUS>;
+        };
+
+        combo_bt_clear {
+            key-positions = <0 1 2>;
+            bindings = <&bt BT_CLR>;
+        };
+    };
     keymap {
         compatible = "zmk,keymap";
 
         Base {
             bindings = <
-            &kp Q       &kp W       &kp E         &kp R         &kp T                       &kp Y        &kp U        &kp I       &kp O               &kp P               
-            &hm LGUI A  &hm LALT S  &hm LCTRL D   &hm LSHIFT F  &kp G                       &kp H  &hm RSHFT J  &hm RCTRL K  &hm RALT L  &hm RGUI SEMICOLON  
-            &kp Z       &kp X       &kp C         &kp V         &kp B                       &kp N        &kp M    &kp COMMA     &kp DOT         &lt 7 SLASH         
-                                    &lt 1 ESCAPE  &lt 2 TAB     &lt 3 SPACE       &lt 4 BACKSPACE  &lt 5 ENTER
+            &kp Q       &kp W       &kp E         &kp R         &kp T                       &kp Y        &kp U        &kp I       &kp O               &kp P
+            &kp A  &kp S  &kp D   &kp F  &kp G                       &kp H  &kp J  &kp K  &kp L  &kp MINUS
+            &kp Z       &kp X       &kp C         &kp V         &kp B                       &kp N        &kp M    &kp COMMA     &kp DOT         &kp LS(SLASH)
+                                    &hm LCTRL LANG2  &kp BACKSPACE     &hm LSHFT SPACE       &lt Layer1 ENTER  &hm LALT LANG1
             >;
         };
 
-        Media {
+        Layer1 {
             bindings = <
-            &trans        &trans          &trans          &trans      &trans              &trans            &trans             &trans           &trans      &trans  
-            &kp LGUI      &kp LALT        &kp LCTRL       &kp LSHIFT  &trans              &trans    &kp C_PREVIOUS  &kp C_VOLUME_DOWN  &kp C_VOLUME_UP  &kp C_NEXT  
-            &kp C_PREV    &kp C_VOL_DN    &kp C_VOL_UP    &kp C_NEXT  &trans              &trans            &trans             &trans           &trans      &trans  
-                                          &trans          &trans      &trans          &kp C_STOP  &kp C_PLAY_PAUSE
+            &trans          &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp KP_SLASH               &trans      &trans     &kp UP    &trans           &kp HASH
+            &kp PERCENT     &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp TILDE               &hm SEMICOLON LS(SEMICOLON)  &kp LEFT  &kp DOWN  &kp RIGHT  &kp EXCL
+            &kp KP_N0    &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_DOT                 &trans      &hm RIGHT_BRACKET LEFT_BRACKET     &hm RIGHT_PARENTHESIS LEFT_PARENTHESIS    &hm LS(DOT) LS(COMMA)    &trans
+                                          &trans          &trans      &trans          &trans  &trans
             >;
         };
 
         Nav {
             bindings = <
-            &kp LC(Z)     &kp LC(X)   &kp LC(C)   &kp LC(V)   &kp LC(A)                     &trans     &trans         &trans       &trans       &trans  
-            &kp LEFT_GUI  &kp LALT    &kp LCTRL   &kp LSHIFT  &kp SQT                     &kp CAPS   &kp LEFT       &kp DOWN       &kp UP    &kp RIGHT  
-            &kp LEFT      &kp DOWN    &kp UP      &kp RIGHT   &kp DELETE                &kp INSERT   &kp HOME  &kp PAGE_DOWN  &kp PAGE_UP      &kp END  
-                                      &trans      &trans      &trans                    &kp DELETE  &kp ENTER
+            &kp LC(Z)     &kp LC(X)   &kp LC(C)   &kp LC(V)   &kp LC(A)                     &trans     &trans         &trans       &trans       &trans
+            &kp LEFT_GUI  &kp LALT    &kp LCTRL   &kp LSHIFT  &kp SQT                     &kp CAPS   &kp LEFT       &kp DOWN       &kp UP    &kp RIGHT
+            &kp LEFT      &kp DOWN    &kp UP      &kp RIGHT   &kp DELETE                &kp INSERT   &kp HOME  &kp PAGE_DOWN  &kp PAGE_UP      &kp END
+                                      &trans      &trans      &trans                    &kp ENTER  &trans
             >;
         };
 
         Mouse {
             bindings = <
-            &trans    &trans      &trans      &trans      &trans              &trans         &trans     &trans     &trans  &trans  
-            &trans    &trans      &trans      &trans      &trans              &trans         &trans     &trans     &trans  &trans  
-            &trans    &mkp LCLK   &mkp MCLK   &mkp RCLK   &trans              &trans      &mkp LCLK  &mkp MCLK  &mkp RCLK  &trans  
+            &trans    &trans      &trans      &trans      &trans              &trans         &trans     &trans     &trans  &trans
+            &trans    &trans      &trans      &trans      &trans              &trans         &trans     &trans     &trans  &trans
+            &trans    &mkp LCLK   &mkp MCLK   &mkp RCLK   &trans              &trans      &mkp LCLK  &mkp MCLK  &mkp RCLK  &trans
                                   &trans      &trans      &trans              &trans         &trans
             >;
         };
 
         Sym {
             bindings = <
-            &kp LEFT_BRACE  &kp AMPERSAND  &kp ASTERISK          &kp LEFT_PARENTHESIS   &kp RIGHT_BRACE       &trans      &trans     &trans    &trans    &trans  
-            &kp COLON       &kp DOLLAR     &kp PERCENT           &kp CARET              &kp PLUS              &trans  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI  
-            &kp TILDE       &kp EXCL       &kp AT                &kp HASH               &kp PIPE              &trans      &trans     &trans    &trans    &trans  
-                                           &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp UNDERSCORE        &trans      &trans
+            &kp LEFT_BRACE  &kp AMPERSAND  &kp ASTERISK          &kp LEFT_PARENTHESIS   &kp RIGHT_BRACE       &trans      &trans     &trans    &trans    &trans
+            &kp COLON       &kp DOLLAR     &kp PERCENT           &kp CARET              &kp PLUS              &trans  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI
+            &kp TILDE       &kp EXCL       &kp AT                &kp HASH               &kp PIPE              &trans      &trans     &trans    &trans    &trans
+                                           &kp UNDERSCORE  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS        &trans      &trans
             >;
         };
 
         Num {
             bindings = <
-            &kp LEFT_BRACKET  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp RIGHT_BRACKET       &trans      &trans     &trans    &trans    &trans  
-            &kp SEMICOLON     &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp EQUAL               &trans  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI  
-            &kp GRAVE         &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp BACKSLASH           &trans      &trans     &trans    &trans    &trans  
-                                            &kp SQT       &kp NUMBER_0  &kp MINUS               &trans      &trans
+            &kp LEFT_BRACKET  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp RIGHT_BRACKET       &trans      &trans     &trans    &trans    &trans
+            &kp SEMICOLON     &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp EQUAL               &trans  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI
+            &kp GRAVE         &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp BACKSLASH           &trans      &trans     &trans    &trans    &trans
+                                            &kp MINUS       &kp SQT  &kp NUMBER_0               &trans      &trans
             >;
         };
 
         Fun {
             bindings = <
-            &kp F12     &kp F7   &kp F8      &kp F9   &kp PRINTSCREEN          &trans      &trans     &trans    &trans    &trans  
-            &kp F11     &kp F4   &kp F5      &kp F6   &kp SCROLLLOCK           &trans  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI  
-            &kp F10     &kp F1   &kp F2      &kp F3   &kp PAUSE_BREAK          &trans      &trans     &trans    &trans    &trans  
-                                 &kp C_MENU  &kp TAB  &kp SPACE                &trans      &trans
+            &kp F12     &kp F7   &kp F8      &kp F9   &kp PRINTSCREEN          &trans      &trans     &trans    &trans    &trans
+            &kp F11     &kp F4   &kp F5      &kp F6   &kp SCROLLLOCK           &trans  &kp RSHIFT  &kp RCTRL  &kp RALT  &kp RGUI
+            &kp F10     &kp F1   &kp F2      &kp F3   &kp PAUSE_BREAK          &trans      &trans     &trans    &trans    &trans
+                                 &kp SPACE  &kp C_MENU  &kp TAB                &trans      &trans
             >;
         };
 
         Button {
             bindings = <
-            &bt BT_CLR            &bootloader         &trans              &trans          &bt BT_SEL 0       &out OUT_TOG  &out OUT_USB   &out OUT_BLE  &bootloader    &trans  
-            &kp LGUI              &kp LALT            &kp LCTRL           &kp LSHIFT      &bt BT_SEL 1             &trans    &kp RSHIFT      &kp RCTRL     &kp RALT  &kp RGUI  
-            &ext_power EP_TOG     &ext_power EP_ON    &ext_power EP_OFF   &trans          &bt BT_SEL 2             &trans     &mkp LCLK      &mkp MCLK    &mkp RCLK    &trans  
-                                                      &mkp LCLK           &mkp MCLK       &mkp RCLK              &mkp MB4      &mkp MB5
+            &bt BT_CLR            &bootloader         &trans              &trans          &bt BT_SEL 0       &out OUT_TOG  &out OUT_USB   &out OUT_BLE  &bootloader    &trans
+            &kp LGUI              &kp LALT            &kp LCTRL           &kp LSHIFT      &bt BT_SEL 1             &trans    &kp RSHIFT      &kp RCTRL     &kp RALT  &kp RGUI
+            &ext_power EP_TOG     &ext_power EP_ON    &ext_power EP_OFF   &trans          &bt BT_SEL 2             &trans     &mkp LCLK      &mkp MCLK    &mkp RCLK    &trans
+                                                      &mkp RCLK           &mkp LCLK       &mkp MCLK              &mkp MB5      &trans
             >;
         };
     };
