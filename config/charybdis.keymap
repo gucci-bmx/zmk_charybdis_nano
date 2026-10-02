@@ -125,7 +125,7 @@ combos {
         };
 
         combo_bt_clear {
-            key-positions = <0 1 2>;
+            key-positions = <0 10 20>;
             bindings = <&bt BT_CLR>;
         };
 
