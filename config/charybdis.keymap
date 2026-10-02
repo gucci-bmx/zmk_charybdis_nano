@@ -138,6 +138,11 @@ combos {
             key-positions = <10 11>;
             bindings = <&bt BT_SEL 1>;
         };
+
+        combo_bt_sel_2 {
+            key-positions = <20 21>;
+            bindings = <&bt BT_SEL 2>;
+        };
     };
     keymap {
         compatible = "zmk,keymap";
