@@ -159,8 +159,8 @@ combos {
         Layer1 {
             bindings = <
             &trans          &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp KP_SLASH               &trans      &trans     &kp UP    &trans           &kp HASH
-            &kp PERCENT     &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp TILDE               &hm SEMICOLON LS(SEMICOLON)  &kp LEFT  &kp DOWN  &kp RIGHT  &kp EXCL
-            &kp KP_N0    &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_DOT                 &trans      &hm RIGHT_BRACKET LEFT_BRACKET     &hm RIGHT_PARENTHESIS LEFT_PARENTHESIS    &hm LS(DOT) LS(COMMA)    &trans
+            &kp PERCENT     &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp TILDE               &hm SEMICOLON SQT  &kp LEFT  &kp DOWN  &kp RIGHT  &kp EXCL
+            &kp KP_N0    &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_DOT                 &trans      &hm LEFT_PARENTHESIS ASTERISK     &hm RIGHT_BRACE NON_US_HASH    &hm LS(DOT) LS(COMMA)    &trans
                                           &trans          &trans      &trans          &trans  &trans
             >;
         };
