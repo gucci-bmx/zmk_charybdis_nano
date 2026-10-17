@@ -44,16 +44,16 @@
         macro_shift_enter: macro_shift_enter {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <30>;
-            tap-ms = <30>;
+            wait-ms = <100>;
+            tap-ms = <50>;
             bindings = <&macro_press &kp LSHFT>, <&macro_tap &kp ENTER>, <&macro_release &kp LSHFT>;
         };
 
         macro_shift_space: macro_shift_space {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <30>;
-            tap-ms = <30>;
+            wait-ms = <100>;
+            tap-ms = <50>;
             bindings = <&macro_press &kp LSHFT>, <&macro_tap &kp SPACE>, <&macro_release &kp LSHFT>;
         };
 
