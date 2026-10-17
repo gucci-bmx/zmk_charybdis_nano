@@ -41,11 +41,27 @@
                 <&kp>;
         };
 
+        macro_shift_enter: macro_shift_enter {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings = <&macro_press &kp LSHFT>, <&macro_tap &kp ENTER>, <&macro_release &kp LSHFT>;
+        };
+
+        macro_shift_space: macro_shift_space {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <30>;
+            tap-ms = <30>;
+            bindings = <&macro_press &kp LSHFT>, <&macro_tap &kp SPACE>, <&macro_release &kp LSHFT>;
+        };
+
         td_thumb_bl: tap_dance_thumb_bl {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&kp LS(ENTER)>, <&kp LS(SPACE)>;
+            bindings = <&macro_shift_enter>, <&macro_shift_space>;
         };
 
         htd_thumb_bl: hold_tap_dance_thumb_bl {
