@@ -44,7 +44,7 @@
         td_thumb_bl: tap_dance_thumb_bl {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <200>;
+            tapping-term-ms = <350>;
             bindings = <&kp LC(SPACE)>, <&kp LC(ENTER)>;
         };
 
@@ -122,6 +122,16 @@ combos {
         combo_minus {
             key-positions = <22 23>;
             bindings = <&kp KP_MINUS>;
+        };
+
+        combo_alt_f4 {
+            key-positions = <25 26>;
+            bindings = <&kp LA(F4)>;
+        };
+
+        combo_win_tab {
+            key-positions = <6 7 8>;
+            bindings = <&kp LG(TAB)>;
         };
 
         combo_bt_clear {
